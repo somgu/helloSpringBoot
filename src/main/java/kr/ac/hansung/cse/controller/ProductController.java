@@ -20,13 +20,13 @@ import kr.ac.hansung.cse.model.Product;
 import kr.ac.hansung.cse.repo.ProductRepository;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/v1")
 public class ProductController {
 
 	@Autowired
 	ProductRepository repository;
 	
-	@GetMapping("/v1")
+	@GetMapping("/products")
 	public ResponseEntity<List<Product>> getAllProducts() {
 		List<Product> products = new ArrayList<>();
 		try {
@@ -41,7 +41,7 @@ public class ProductController {
 		}
 	}
 	
-	@GetMapping("/v1/products/{id}")
+	@GetMapping("/products/{id}")
 	public ResponseEntity<Product> getProductById(@PathVariable("id") int id) {
 		Optional<Product> productData = repository.findById(id);
 		
@@ -52,7 +52,7 @@ public class ProductController {
 		}
 	}
 	
-	@PostMapping(value="/v1/products")
+	@PostMapping(value="/products")
 	public ResponseEntity<Product> postProduct(@RequestBody Product product) {//입력 받은 내용을 바탕으로 개게 생성
 		try {
 			Product _product = repository.save(new Product(product.getName(), product.getCategory(), product.getPrice(), product.getManufacturer(), product.getUnitInStock(), product.getDescription()));
@@ -62,7 +62,7 @@ public class ProductController {
 		}
 	}
 	
-	@GetMapping(value = "products/category/{category}")
+	@GetMapping(value = "/products/category/{category}")
 	public ResponseEntity<List<Product>> findByCategory(@PathVariable String category) {
 		try {
 			List<Product> products = repository.findByCategory(category);
